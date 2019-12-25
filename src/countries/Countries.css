@@ -1,0 +1,20 @@
+.country-item {
+    display: flex;
+    width: 50vw;
+    margin-top: 10px;
+    border: 1px solid lightgray;
+    text-align: left;
+    cursor: pointer;
+}
+
+.country-item img {
+    max-width: 80px;
+}
+
+.country-item p {
+    margin: 0;
+}
+
+.country-item small {
+    color: gray;
+}
