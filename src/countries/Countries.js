@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getCountries } from '../services/countries';
 import './Countries.css';
+import store from '../store';
+import { callApi, showDetails } from '../action';
 
 export default class Countries extends Component {
 
@@ -11,18 +13,30 @@ export default class Countries extends Component {
         };
     }
 
-    async componentDidMount() {
-        try {
-            const res = await getCountries();
-            this.setState({ countries: res.data });
-        } catch (error) {
-            console.warn('Failed To Fetch');
-        }
+    // async componentDidMount() {
+    //     try {
+    //         const res = await getCountries();
+    //         this.setState({ countries: res.data });
+    //     } catch (error) {
+    //         console.warn('Failed To Fetch');
+    //     }
+    // }
+
+    componentDidMount() {
+        const action = callApi();
+        store.dispatch(action);
+        store.subscribe(() => {
+            const state = store.getState();
+            this.setState({ countries: state.countries });
+            // console.log(state);
+        });
     }
 
     handleClick = (country) => {
-        const countries = this.state.countries.map(c => c === country ? { ...c, isExpanded: true } : c);
-        this.setState({ countries });
+        const action = showDetails(country);
+        store.dispatch(action);
+        // const countries = this.state.countries.map(c => c === country ? { ...c, isExpanded: true } : c);
+        // this.setState({ countries });
     };
 
     render() {
